@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>MyArrow Server</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        MyArrow-Server:
+        <br>
+        <br>
+        <br>
+        Der MyArrow-Server ist die Serverkomponente zum entsprechenden Client 
+        auf dem Handy. Die Verbindung funktioniert nur bei bekannten IP Adressen 
+        und im gleichen Netz.
+        <br>
+        <br>
+        Die Aufgabe ist es, die Daten zwischen Handy und Server zu synchronisieren 
+        und auf alle Clients zu verteilen.
+        <br>
+        <br>
+        <TABLE BORDER="2" CELLPADDING="2">
+            <TR><TD WIDTH="1000">
+                <H2>I'm a Simple Form</H2>
+                Enter some text and click the Submit button.<BR>
+                Clicking Submit invokes
+                <A HREF="./MyArrowServlet.java">MyArrowServlet.java</A>,
+                <BR>
+                which returns an HTML page to the browser.
+                <FORM METHOD="POST" ACTION="MyArrowServer">
+                    <INPUT TYPE="NUMBER" NAME="deviceid">
+                    <P>
+                    <INPUT TYPE="SUBMIT" VALUE="Click Me">
+                    <INPUT TYPE="RESET">
+                </FORM>
+            </TD></TR>
+        </TABLE>
+    </body>
+
+</html>
