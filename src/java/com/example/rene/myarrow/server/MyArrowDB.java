@@ -30,7 +30,7 @@ public class MyArrowDB {
             sINSTANCE = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/myarrow?autoReconnect=true&useSSL=false",
                     "root",
-                    "satelindo" );
+                    "%Satelindo1!" );
         } catch( SQLException sqlex ) {
             System.out.println("SQLException: " + sqlex.getMessage());
             System.out.println("SQLState: " + sqlex.getSQLState());
