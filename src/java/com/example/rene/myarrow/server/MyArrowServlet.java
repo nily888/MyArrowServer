@@ -19,6 +19,8 @@ import com.example.rene.myarrow.server.rundenschuetzen.RundenSchuetzenSpeicher;
 import com.example.rene.myarrow.server.rundenziel.RundenZiel;
 import com.example.rene.myarrow.server.rundenziel.RundenZielSpeicher;
 import com.example.rene.myarrow.server.uptime.upTimeSpeicher;
+import com.example.rene.myarrow.server.managegid.ManageGID;
+import com.example.rene.myarrow.server.managegid.ManageGIDSpeicher;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MyArrowServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private final int row_id;
+    private int row_id;
     private final boolean action=false;
   
     public MyArrowServlet() {
@@ -71,6 +73,7 @@ public class MyArrowServlet extends HttpServlet {
         System.out.println("=====================================================================");
         super.service(request, response);
     }
+    
     @Override
     protected void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException {
@@ -142,12 +145,12 @@ public class MyArrowServlet extends HttpServlet {
                             break;
                         }
                         System.out.print("System: doPost(): TransferListe = " + rs.getString(3));
-                        System.out.print("System: doPost(): ID  = " + rs.getInt(1));
-                        System.out.print("System: doPost(): GID = " + rs.getString(2));
+                        System.out.print("System: doPost(): ID            = " + rs.getInt(1));
+                        System.out.print("System: doPost(): GID           = " + rs.getString(2));
                         System.out.print("=====================================================================");
                         switch (rs.getString(3)) {
                             case "schuetzen":
-                                send = sendSchuetzen(rs.getInt(1), rs.getString(2), response);
+                                send = sendSchuetzen(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             case "bogen":
@@ -205,7 +208,8 @@ public class MyArrowServlet extends HttpServlet {
         } else {
             /**
              * in Abhängigkeit der zu synchroniserenden Tabelle
-             * die Prozedure auswählen
+             * die Prozedure auswählen, Daten erhalten und in der Datenbank
+             * abspeichern
              */        
             switch (request.getParameter("table")) {
                 case "schuetzen":
@@ -296,7 +300,19 @@ public class MyArrowServlet extends HttpServlet {
             Long.valueOf(request.getParameter(Schuetzen.ZEITSTEMPEL)));
         System.out.println("System: getSchuetzen(): Schuetzen = "
                 + schuetzen.toString());
-    
+
+        /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        String mappedGID = managegid.getServerGID(table, schuetzen.getGID(), deviceid);
+        if (mappedGID != null) {
+            schuetzen.setGID(mappedGID);
+            System.out.println("System: getSchuetzen(): Schuetzen = " + schuetzen.toString());
+        } else {
+            System.err.println("System: getSchuetzen():  Error during mapping of GID!");
+        }
+        
         /**
          * Datensatz abspeichern
          */
@@ -950,18 +966,41 @@ public class MyArrowServlet extends HttpServlet {
         }
     }
     
-    private boolean sendSchuetzen(int id, String gid, HttpServletResponse response) {
+    private boolean sendSchuetzen(int id, String gid, String deviceid, HttpServletResponse response) {
         try {
             System.out.println("System: sendSchuetzen(): ID  -      " + id);
             System.out.println("System: sendSchuetzen(): GID -      " + gid);
+            System.out.println("System: sendSchuetzen(): DEVICEID - " + deviceid);
             System.out.println("System: sendSchuetzen(): RESPONSE - " + response);
+            
+            /**
+             * Verbindung aufbauen
+             */
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
+            
+            /**
+             * Basierend auf der GID die Daten laden
+             */
             Schuetzen schuetzen = new SchuetzenSpeicher().loadSchuetzenDetails(gid);
             if (schuetzen==null) return false;
+            
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            schuetzen.setGID(new ManageGIDSpeicher().getMobilGID("schuetzen", gid, deviceid));
+            
+            /**
+             * Daten senden und Verbindung schliessen
+             */
             out.println(schuetzen.toString());
             out.close();
+            
+            /**
+             * Alles ist gut gegangen und ab nach Hause
+             */
             return true;
+            
         } catch ( IOException e) {
             System.err.println("System: sendSchuetzen(): Datensatz konnte nicht gesendt werden!!");
             System.err.println("System: sendSchuetzen(): " + e);

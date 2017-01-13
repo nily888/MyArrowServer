@@ -45,7 +45,7 @@ public class MyArrowDB {
      * verwaltet werden. Daher muss der Context der Anwendung
      * uebergeben werden.
      *
-     * @return Das <i>eine</i> Exemplar der Amando-Datenbank,
+     * @return Das <i>eine</i> Exemplar der MyArrow-Datenbank,
      *    das in der Anwendung verwendet werden darf.
      */
     public Connection getInstance() {
