@@ -27,13 +27,15 @@ public class MyArrowDB {
     public MyArrowDB() {
         System.out.println("=====================================================================");
         System.out.println("System: Constructor(): " + TAG + " wird initialisiert...");
-        System.out.println("=====================================================================");        
+        System.out.println("=====================================================================");
         try {
-            Class.forName( "com.mysql.jdbc.Driver" ).newInstance();
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            System.out.println("System: " + TAG + ": Class.forName - Done");
             sINSTANCE = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/myarrow?autoReconnect=true&useSSL=false",
                     "root",
                     "%Satelindo1!" );
+            System.out.println("System: " + TAG + ": getConnection() - Done");
         } catch( SQLException sqlex ) {
             System.out.println("SQLException: " + sqlex.getMessage());
             System.out.println("SQLState: " + sqlex.getSQLState());
@@ -52,7 +54,7 @@ public class MyArrowDB {
      *    das in der Anwendung verwendet werden darf.
      */
     public Connection getInstance() {
-        System.out.println("System: MyArrowDB(): getInstance(): Start");
+        System.out.println("System: MyArrowDB(): getInstance() - Start");
         if( sINSTANCE == null ) {
             synchronized(sLOCK) {
                 if( sINSTANCE == null ) {

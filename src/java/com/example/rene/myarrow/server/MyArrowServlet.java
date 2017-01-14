@@ -52,11 +52,15 @@ public class MyArrowServlet extends HttpServlet {
         final upTimeSpeicher uTS = new upTimeSpeicher();
         row_id = uTS.insertStartTime();
         uTS.schliessen();
+        
+        /**
+         * GUI MyArrowEditor starten
+         */
+        new MyArrowEditor().main(null);
     }
   
     @Override
     public void destroy() {
-        System.out.println("=====================================================================");
         System.out.println("System: destroy(): entered...");
         System.out.println("=====================================================================");
         final upTimeSpeicher uTS = new upTimeSpeicher();
@@ -68,7 +72,6 @@ public class MyArrowServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("=====================================================================");
         System.out.println("System: service(): entered...");
         System.out.println("=====================================================================");
         super.service(request, response);
@@ -77,7 +80,6 @@ public class MyArrowServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("=====================================================================");
         System.out.println("System: doGet(): entered...");
         System.out.println("=====================================================================");
 	// wird nicht verwendet...
@@ -86,7 +88,6 @@ public class MyArrowServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("=====================================================================");
         System.out.println("System: doPost(): entered...");
 
         /**
