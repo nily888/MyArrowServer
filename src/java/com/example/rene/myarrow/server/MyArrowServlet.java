@@ -154,31 +154,31 @@ public class MyArrowServlet extends HttpServlet {
                                 break;
 
                             case "bogen":
-                                send = sendBogen(rs.getInt(1), rs.getString(2), response);
+                                send = sendBogen(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             case "pfeil":
-                                send = sendPfeil(rs.getInt(1), rs.getString(2), response);
+                                send = sendPfeil(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             case "parcour":
-                                send = sendParcour(rs.getInt(1), rs.getString(2), response);
+                                send = sendParcour(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             case "ziel":
-                                send = sendZiel(rs.getInt(1), rs.getString(2), response);
+                                send = sendZiel(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             case "runden":
-                                send = sendRunden(rs.getInt(1), rs.getString(2), response);
+                                send = sendRunden(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             case "rundenschuetzen":
-                                send = sendRundenSchuetzen(rs.getInt(1), rs.getString(2), response);
+                                send = sendRundenSchuetzen(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             case "rundenziel":
-                                send = sendRundenZiel(rs.getInt(1), rs.getString(2), response);
+                                send = sendRundenZiel(rs.getInt(1), rs.getString(2), deviceid, response);
                                 break;
 
                             default:
@@ -398,6 +398,18 @@ public class MyArrowServlet extends HttpServlet {
                 + parcour.toString());
     
         /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        String mappedGID = managegid.getServerGID(table, parcour.getGID(), deviceid);
+        if (mappedGID != null) {
+            parcour.setGID(mappedGID);
+            System.out.println("System: getParcour(): Parcour = " + parcour.toString());
+        } else {
+            System.err.println("System: getParcour():  Error during mapping of GID!");
+        }
+        
+        /**
          * Datensatz abspeichern
          */
         final ParcourSpeicher parcourSpeicher = new ParcourSpeicher();
@@ -468,7 +480,18 @@ public class MyArrowServlet extends HttpServlet {
             Long.valueOf(request.getParameter(Ziel.ZEITSTEMPEL)));
         System.out.println("System: getZiel(): Ziel = "
                 + ziel.toString());
-    
+        
+        /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        String mappedGID = managegid.getServerGID(table, ziel.getGID(), deviceid);
+        if (mappedGID != null) {
+            ziel.setGID(mappedGID);
+            System.out.println("System: getZiel(): Ziel = " + ziel.toString());
+        } else {
+            System.err.println("System: getZiel():  Error during mapping of GID!");
+        }    
         /**
          * Datensatz abspeichern
          */
@@ -527,7 +550,19 @@ public class MyArrowServlet extends HttpServlet {
             Long.valueOf(request.getParameter(Bogen.ZEITSTEMPEL)));
         System.out.println("System: getBogen(): Bogen = "
                 + bogen.toString());
-    
+        
+        /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        String mappedGID = managegid.getServerGID(table, bogen.getGID(), deviceid);
+        if (mappedGID != null) {
+            bogen.setGID(mappedGID);
+            System.out.println("System: getBogen(): Bogen = " + bogen.toString());
+        } else {
+            System.err.println("System: getBogen():  Error during mapping of GID!");
+        }
+            
         /**
          * Datensatz abspeichern
          */
@@ -587,7 +622,19 @@ public class MyArrowServlet extends HttpServlet {
             Long.valueOf(request.getParameter(Pfeil.ZEITSTEMPEL)));
         System.out.println("System: getPfeil(): Pfeil = "
                 + pfeil.toString());
-    
+        
+        /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        String mappedGID = managegid.getServerGID(table, pfeil.getGID(), deviceid);
+        if (mappedGID != null) {
+            pfeil.setGID(mappedGID);
+            System.out.println("System: getPfeil(): Pfeil = " + pfeil.toString());
+        } else {
+            System.err.println("System: getvPfeil():  Error during mapping of GID!");
+        }
+            
         /**
          * Datensatz abspeichern
          */
@@ -662,7 +709,44 @@ public class MyArrowServlet extends HttpServlet {
             Integer.valueOf(request.getParameter(Runden.PUNKTESTAND)));
         System.out.println("System: getRunden(): Runden = "
                 + runden.toString());
-    
+        
+        /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        // GID
+        String mappedGID = managegid.getServerGID(table, runden.getGID(), deviceid);
+        if (mappedGID != null) {
+            runden.setGID(mappedGID);
+            System.out.println("System: getRunden(): Runden = " + runden.toString());
+        } else {
+            System.err.println("System: getRunden():  Error during mapping of GID!");
+        }
+        // Parcour
+        mappedGID = managegid.getServerGID(table, runden.getParcourGID(), deviceid);
+        if (mappedGID != null) {
+            runden.setParcourGID(mappedGID);
+            System.out.println("System: getRunden(): Parcour = " + runden.toString());
+        } else {
+            System.err.println("System: getRunden():  Error during mapping of GID!");
+        }
+        // Bogen
+        mappedGID = managegid.getServerGID(table, runden.getBogenGID(), deviceid);
+        if (mappedGID != null) {
+            runden.setBogenGID(mappedGID);
+            System.out.println("System: getRunden(): Bogen = " + runden.toString());
+        } else {
+            System.err.println("System: getRunden():  Error during mapping of GID!");
+        }
+        // Pfeil
+        mappedGID = managegid.getServerGID(table, runden.getPfeilGID(), deviceid);
+        if (mappedGID != null) {
+            runden.setPfeilGID(mappedGID);
+            System.out.println("System: getRunden(): Pfeil = " + runden.toString());
+        } else {
+            System.err.println("System: getRunden():  Error during mapping of GID!");
+        }
+            
         /**
          * Datensatz abspeichern
          */
@@ -722,7 +806,37 @@ public class MyArrowServlet extends HttpServlet {
             Long.valueOf(request.getParameter(RundenSchuetzen.ZEITSTEMPEL)));
         System.out.println("System: RundenSchuetzen(): RundenSchuetzen = "
                 + rundenschuetzen.toString());
-    
+
+        /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        // GID
+        String mappedGID = managegid.getServerGID(table, rundenschuetzen.getGID(), deviceid);
+        if (mappedGID != null) {
+            rundenschuetzen.setGID(mappedGID);
+            System.out.println("System: getRundenSchuetzen(): RundenSchuetzen = " + rundenschuetzen.toString());
+        } else {
+            System.err.println("System: getRundenSchuetzen():  Error during mapping of GID!");
+        }
+        // Runden
+        mappedGID = managegid.getServerGID(table, rundenschuetzen.getRundenGID(), deviceid);
+        if (mappedGID != null) {
+            rundenschuetzen.setRundenGID(mappedGID);
+            System.out.println("System: getRundenSchuetzen(): RundenSchuetzen = " + rundenschuetzen.toString());
+        } else {
+            System.err.println("System: getRundenSchuetzen():  Error during mapping of GID!");
+        }
+        // Schuetzen
+        mappedGID = managegid.getServerGID(table, rundenschuetzen.getSchuetzenGID(), deviceid);
+        if (mappedGID != null) {
+            rundenschuetzen.setSchuetzenGID(mappedGID);
+            System.out.println("System: getRundenSchuetzen(): RundenSchuetzen = " + rundenschuetzen.toString());
+        } else {
+            System.err.println("System: getRundenSchuetzen():  Error during mapping of GID!");
+        }
+
+
         /**
          * Datensatz abspeichern
          */
@@ -816,7 +930,44 @@ public class MyArrowServlet extends HttpServlet {
             Long.valueOf(request.getParameter(RundenZiel.ZEITSTEMPEL)));
         System.out.println("System: getRundenZiel(): RundenZiel = "
                 + rundenziel.toString());
-    
+
+        /**
+         * Mapping der GID von Mobile auf Server
+         */
+        ManageGIDSpeicher managegid = new ManageGIDSpeicher();
+        // GID
+        String mappedGID = managegid.getServerGID(table, rundenziel.getGID(), deviceid);
+        if (mappedGID != null) {
+            rundenziel.setGID(mappedGID);
+            System.out.println("System: getRundenZiel(): RundenZiel = " + rundenziel.toString());
+        } else {
+            System.err.println("System: getRundenZiel():  Error during mapping of GID!");
+        }
+        // Runden
+        mappedGID = managegid.getServerGID(table, rundenziel.getRundenGID(), deviceid);
+        if (mappedGID != null) {
+            rundenziel.setRundenGID(mappedGID);
+            System.out.println("System: getRundenZiel(): RundenSchuetzen = " + rundenziel.toString());
+        } else {
+            System.err.println("System: getRundenZiel():  Error during mapping of GID!");
+        }
+        // Ziel
+        mappedGID = managegid.getServerGID(table, rundenziel.getZielGID(), deviceid);
+        if (mappedGID != null) {
+            rundenziel.setZielGID(mappedGID);
+            System.out.println("System: getRundenZiel(): RundenZiel = " + rundenziel.toString());
+        } else {
+            System.err.println("System: getRundenZiel():  Error during mapping of GID!");
+        }
+        // RundenSchuetzen
+        mappedGID = managegid.getServerGID(table, rundenziel.getRundenSchuetzenGID(), deviceid);
+        if (mappedGID != null) {
+            rundenziel.setRundenSchuetzenGID(mappedGID);
+            System.out.println("System: getRundenZiel(): RundenZiel = " + rundenziel.toString());
+        } else {
+            System.err.println("System: getRundenZiel():  Error during mapping of GID!");
+        }
+
         /**
          * Datensatz abspeichern
          */
@@ -848,7 +999,7 @@ public class MyArrowServlet extends HttpServlet {
         clientsSpeicher.schliessen();
     }
 
-    private boolean sendBogen(int id, String gid, HttpServletResponse response) {
+    private boolean sendBogen(int id, String gid, String deviceid, HttpServletResponse response) {
         
         try {
             System.out.println("System: sendBogen(): ID  -      " + id);
@@ -858,6 +1009,13 @@ public class MyArrowServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             Bogen bogen = new BogenSpeicher().loadBogenDetails(gid);
             if (bogen==null) return false;
+
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            bogen.setGID(new ManageGIDSpeicher().getMobilGID("bogen", gid, deviceid));
+            
+
             System.out.println("System: sendParcour(): BOGEN -  " + bogen.toString());
             out.println(bogen.toString());
             out.close();
@@ -869,7 +1027,7 @@ public class MyArrowServlet extends HttpServlet {
         }
     }
     
-    private boolean sendParcour(int id, String gid, HttpServletResponse response) {
+    private boolean sendParcour(int id, String gid, String deviceid, HttpServletResponse response) {
         try {
             System.out.println("System: sendParcour(): ID  -      " + id);
             System.out.println("System: sendParcour(): GID -      " + gid);
@@ -878,6 +1036,12 @@ public class MyArrowServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             Parcour parcour = new ParcourSpeicher().loadParcourDetails(gid);
             if (parcour==null) return false;
+
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            parcour.setGID(new ManageGIDSpeicher().getMobilGID("parcour", gid, deviceid));
+            
             System.out.println("System: sendParcour(): PARCOUR -  " + parcour.toString());
             out.println(parcour.toString());
             out.close();
@@ -889,7 +1053,7 @@ public class MyArrowServlet extends HttpServlet {
         }
     }
     
-    private boolean sendPfeil(int id, String gid, HttpServletResponse response) {
+    private boolean sendPfeil(int id, String gid, String deviceid, HttpServletResponse response) {
         try {
             System.out.println("System: sendPfeil(): ID  -      " + id);
             System.out.println("System: sendPfeil(): GID -      " + gid);
@@ -898,6 +1062,12 @@ public class MyArrowServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             Pfeil pfeil = new PfeilSpeicher().loadPfeilDetails(gid);
             if (pfeil==null) return false;
+
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            pfeil.setGID(new ManageGIDSpeicher().getMobilGID("pfeil", gid, deviceid));
+            
             out.println(pfeil.toString());
             out.close();
             return true;
@@ -909,7 +1079,7 @@ public class MyArrowServlet extends HttpServlet {
         
     }
     
-    private boolean sendRunden(int id, String gid, HttpServletResponse response) {
+    private boolean sendRunden(int id, String gid, String deviceid, HttpServletResponse response) {
         try {
             System.out.println("System: sendRunden(): ID  -      " + id);
             System.out.println("System: sendRunden(): GID -      " + gid);
@@ -918,6 +1088,15 @@ public class MyArrowServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             Runden runden = new RundenSpeicher().loadRundenDetails(gid);
             if (runden==null) return false;
+
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            runden.setGID(new ManageGIDSpeicher().getMobilGID("runden", gid, deviceid));
+            runden.setParcourGID(new ManageGIDSpeicher().getMobilGID("parcour", runden.getParcourGID(), deviceid));
+            runden.setBogenGID(new ManageGIDSpeicher().getMobilGID("bogen", runden.getBogenGID(), deviceid));
+            runden.setPfeilGID(new ManageGIDSpeicher().getMobilGID("pfeil", runden.getPfeilGID(), deviceid));
+            
             out.println(runden.toString());
             out.close();
             return true;
@@ -928,7 +1107,7 @@ public class MyArrowServlet extends HttpServlet {
         }
     }
     
-    private boolean sendRundenSchuetzen(int id, String gid, HttpServletResponse response) {
+    private boolean sendRundenSchuetzen(int id, String gid, String deviceid, HttpServletResponse response) {
         try {
             System.out.println("System: sendRundenSchuetzen(): ID  -      " + id);
             System.out.println("System: sendRundenSchuetzen(): GID -      " + gid);
@@ -937,6 +1116,14 @@ public class MyArrowServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             RundenSchuetzen rundenschuetzen = new RundenSchuetzenSpeicher().loadRundenSchuetzenDetails(gid);
             if (rundenschuetzen==null) return false;
+            
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            rundenschuetzen.setGID(new ManageGIDSpeicher().getMobilGID("rundenschuetzen", gid, deviceid));
+            rundenschuetzen.setRundenGID(new ManageGIDSpeicher().getMobilGID("runden", rundenschuetzen.getRundenGID(), deviceid));
+            rundenschuetzen.setSchuetzenGID(new ManageGIDSpeicher().getMobilGID("schuetzen", rundenschuetzen.getSchuetzenGID(), deviceid));
+            
             out.println(rundenschuetzen.toString());
             out.close();
             return true;
@@ -947,7 +1134,7 @@ public class MyArrowServlet extends HttpServlet {
         }        
     }
     
-    private boolean sendRundenZiel(int id, String gid, HttpServletResponse response) {
+    private boolean sendRundenZiel(int id, String gid, String deviceid, HttpServletResponse response) {
         try {
             System.out.println("System: sendRundenZiel(): ID  -      " + id);
             System.out.println("System: sendRundenZiel(): GID -      " + gid);
@@ -956,6 +1143,15 @@ public class MyArrowServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             RundenZiel rundenziel = new RundenZielSpeicher().loadRundenZielDetails(gid);
             if (rundenziel==null) return false;
+            
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            rundenziel.setGID(new ManageGIDSpeicher().getMobilGID("rundenziel", gid, deviceid));
+            rundenziel.setRundenGID(new ManageGIDSpeicher().getMobilGID("runden", rundenziel.getRundenGID(), deviceid));
+            rundenziel.setZielGID(new ManageGIDSpeicher().getMobilGID("ziel", rundenziel.getZielGID(), deviceid));
+            rundenziel.setRundenSchuetzenGID(new ManageGIDSpeicher().getMobilGID("rundenschuetzen", rundenziel.getRundenSchuetzenGID(), deviceid));
+            
             out.println(rundenziel.toString());
             out.close();
             return true;
@@ -1008,7 +1204,7 @@ public class MyArrowServlet extends HttpServlet {
         }        
     }
     
-    private boolean sendZiel(int id, String gid, HttpServletResponse response) {
+    private boolean sendZiel(int id, String gid, String deviceid, HttpServletResponse response) {
         try {
             System.out.println("System: sendZiel(): ID  -      " + id);
             System.out.println("System: sendZiel(): GID -      " + gid);
@@ -1017,6 +1213,11 @@ public class MyArrowServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             Ziel ziel = new ZielSpeicher().loadZielDetails(gid);
             if (ziel==null) return false;
+            /**
+             * Mapping der GID from Server to Mobile
+             */
+            ziel.setGID(new ManageGIDSpeicher().getMobilGID("ziel", gid, deviceid));
+            
             out.println(ziel.toString());
             out.close();
             return true;

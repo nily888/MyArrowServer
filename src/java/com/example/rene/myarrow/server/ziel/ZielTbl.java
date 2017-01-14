@@ -111,6 +111,21 @@ public class ZielTbl implements ZielColumns {
     public static final String WHERE_PARCOUR_EQUALS = PARCOURGID + "=?";
 
     /**
+    * Statement to get all records (ID, GID, Name)
+    */
+    public static final String STMT_WHERE_GID_NAME_EQUALS  =
+            "select " + ID   + ", " + GID + ", " + NAME + " " +
+            "from " + TABLE_NAME;
+    
+    /**
+     * Statement to get all records (ID, GID, Name) where the name is equal
+     */
+    public static final String STMT_WHERE_GID_NAME_NAME_EQUALS  =
+            "select " + ID   + ", " + GID + ", " + NAME + " " +
+            "from " + TABLE_NAME + " " +
+            "where " + NAME + "=?";
+
+    /**
      * Klasse enthaelt nur Konstanten.
      * Daher keine Objekterzeugung vorgesehen.
      */

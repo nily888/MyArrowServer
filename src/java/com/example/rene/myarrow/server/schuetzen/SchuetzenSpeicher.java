@@ -17,7 +17,7 @@ public class SchuetzenSpeicher {
     /**
      * Verweis auf die Mobilfunknummern-Datenbank.
      */
-    private final MyArrowDB mDb;
+    private final Connection mDb;
 
     /**
      * Erzeugt einen neuen SchuetzenSpeicher.<br>
@@ -25,7 +25,7 @@ public class SchuetzenSpeicher {
      * Datenbank unmittelbar nutzbar ist.
      */
     public SchuetzenSpeicher() {
-        mDb = new MyArrowDB();
+        mDb = new MyArrowDB().getInstance();
     }
 
     /**
@@ -39,6 +39,10 @@ public class SchuetzenSpeicher {
      *          Dateiname für das Bild
      * @param zeitstempel
      *      Zeitpunkt des Kontakts.
+     * 
+     * @return
+     *      boolean, if it was successful
+     * 
      */
     public Boolean insertSchuetzen(
             String name,
@@ -51,19 +55,19 @@ public class SchuetzenSpeicher {
         PreparedStatement updateData = null;
         try {
             
-            insertData = mDb.getInstance().prepareStatement(SchuetzenTbl.STMT_INSERT);
+            insertData = mDb.prepareStatement(SchuetzenTbl.STMT_INSERT);
             insertData.setString(1, gid);
             insertData.setString(2, name);
             insertData.setString(3, dateiname);
             insertData.setLong(4, zeitstempel);
 
-            updateData = mDb.getInstance().prepareStatement(SchuetzenTbl.STMT_UPDATE);
+            updateData = mDb.prepareStatement(SchuetzenTbl.STMT_UPDATE);
             updateData.setString(1, name);
             updateData.setString(2, dateiname);
             updateData.setLong(3, zeitstempel);
             updateData.setString(4, gid);
         
-            insertSchuetzen = mDb.insertDataset(insertData, updateData);
+            insertSchuetzen = new MyArrowDB().insertDataset(insertData, updateData);
             
         } catch(SQLException excep) {
             System.out.println("System: insertSchuetzen(): " + insertData.toString());
@@ -102,7 +106,11 @@ public class SchuetzenSpeicher {
      * geändert.<br>
      * Ansonsten wird ein neuer Datensatz erzeugt.
      *
-     * @param schuetzen zu speichernder Schuetze.
+     * @param schuetzen
+     *      zu speichernder Schuetze.
+     * 
+     * @return
+     *      Schuetzen-Name, -GID, -Dateiname, -Zeitstempel
      */
     public Boolean insertSchuetzen(Schuetzen schuetzen) {
         return insertSchuetzen(
@@ -117,7 +125,7 @@ public class SchuetzenSpeicher {
         ResultSet rs = null;
         queryData = null;
         try {
-            queryData = mDb.getInstance().prepareStatement(SchuetzenTbl.STMT_WHERE_GID_EQUALS);
+            queryData = mDb.prepareStatement(SchuetzenTbl.STMT_WHERE_GID_EQUALS);
             queryData.setString(1, gid);
             rs = queryData.executeQuery();
             rs.last();
@@ -139,7 +147,7 @@ public class SchuetzenSpeicher {
             if (mDb != null) {
                 try {
                     System.out.print("System: loadSchuetzenDetails(): Transaction is being rolled back");
-                    mDb.getInstance().rollback();
+                    mDb.rollback();
                 } catch(SQLException excep) {
                     System.err.print(excep);
                 }
@@ -157,7 +165,94 @@ public class SchuetzenSpeicher {
         }
         return null;
     }
-    
+
+    /**
+    * Check for duplicate entries based only on the name
+    * 
+    * @return checkForDuplicates
+    *       Array of GID, GID and Name of a potential duplicate
+    * 
+    */
+    public String[][] checkForDuplicates() {
+        PreparedStatement queryData1;
+        PreparedStatement queryData2;
+        ResultSet rs1 = null;
+        ResultSet rs2 = null;
+        String[][] checkForDuplicates = null;
+        int n=0;
+        queryData1 = null;
+        queryData2 = null;
+        try {
+            queryData1 = mDb.prepareStatement(SchuetzenTbl.STMT_WHERE_GID_NAME_EQUALS);
+            rs1 = queryData1.executeQuery();
+            
+            /**
+             * check if something was found, else return null
+             */
+            if (!rs1.first()) {
+                System.err.println("System: checkForDuplicates(): No records found!!");
+                return null;
+            }
+            
+            while (!rs1.isAfterLast()) {
+                
+                /**
+                 * Search for the same name
+                 */
+                queryData2 = mDb.prepareStatement(SchuetzenTbl.STMT_WHERE_GID_NAME_NAME_EQUALS);
+                queryData1.setString(1, rs1.getString(SchuetzenTbl.NAME));
+                rs2 = queryData2.executeQuery();
+
+                /**
+                * check if something was found and store it
+                */
+                if (rs1.first()) {
+                    checkForDuplicates[n][1] = rs1.getString(SchuetzenTbl.GID);
+                    checkForDuplicates[n][2] = rs2.getString(SchuetzenTbl.GID);
+                    checkForDuplicates[n][3] = rs2.getString(SchuetzenTbl.NAME);
+                    n++;
+                }
+                
+                /*
+                * close recordset 2 and to the next record
+                */
+                rs2.close();
+                queryData2.close();
+                rs1.next();
+
+            }
+
+            /**
+            * close recordset 2 and to the next record
+            */
+            rs1.close();
+            queryData1.close();
+            return checkForDuplicates;
+            
+        } catch (SQLException ex) {
+            System.err.println("System: checkForDuplicates(): " + ex);
+            if (mDb != null) {
+                try {
+                    System.out.print("System: checkForDuplicates(): Transaction is being rolled back");
+                    mDb.rollback();
+                } catch(SQLException excep) {
+                    System.err.print(excep);
+                }
+            }
+            return null;   
+        } finally {
+            try {
+                System.out.print("System: checkForDuplicates: Alles wird geschlossen");
+                if (rs1 != null) rs1.close();
+                if (rs2 != null) rs2.close();
+                if (queryData1 != null) queryData1.close();
+                if (queryData2 != null) queryData2.close();
+            } catch(SQLException excep) {
+                System.err.print("System: checkForDuplicates(): " + excep);
+            }
+        }
+    }
+
     /**
      * Schliesst die zugrundeliegende Datenbank.
      * <br>
@@ -165,7 +260,11 @@ public class SchuetzenSpeicher {
      * werden.
      */
     public void schliessen() {
-        mDb.close();
+        try {
+            mDb.close();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
     }
 
 }

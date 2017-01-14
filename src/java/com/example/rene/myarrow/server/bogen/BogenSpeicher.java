@@ -174,6 +174,90 @@ public class BogenSpeicher {
     }
     
     /**
+     * Check for duplicate entries based only on the name
+     */
+    public String[][] checkForDuplicates() {
+        PreparedStatement queryData1;
+        PreparedStatement queryData2;
+        ResultSet rs1 = null;
+        ResultSet rs2 = null;
+        String[][] checkForDuplicates = null;
+        int n=0;
+        queryData1 = null;
+        queryData2 = null;
+        try {
+            System.out.println(BogenTbl.STMT_WHERE_GID_NAME_EQUALS);
+            queryData1 = mDb.prepareStatement(BogenTbl.STMT_WHERE_GID_NAME_EQUALS);
+            rs1 = queryData1.executeQuery();
+            
+            /**
+             * check if something was found, else return null
+             */
+            if (!rs1.first()) {
+                System.err.println("System: checkForDuplicates(): No records found!!");
+                return null;
+            }
+            
+            while (!rs1.isAfterLast()) {
+                
+                /**
+                 * Search for the same name
+                 */
+                queryData2 = mDb.prepareStatement(BogenTbl.STMT_WHERE_GID_NAME_NAME_EQUALS);
+                queryData1.setString(1, rs1.getString(BogenTbl.NAME));
+                rs2 = queryData2.executeQuery();
+
+                /**
+                * check if something was found and store it
+                */
+                if (rs1.first()) {
+                    checkForDuplicates[n][1] = rs1.getString(BogenTbl.GID);
+                    checkForDuplicates[n][2] = rs2.getString(BogenTbl.GID);
+                    checkForDuplicates[n][3] = rs2.getString(BogenTbl.NAME);
+                    n++;
+                }
+                
+                /*
+                * close recordset 2 and to the next record
+                */
+                rs2.close();
+                queryData2.close();
+                rs1.next();
+
+            }
+
+            /**
+            * close recordset 2 and to the next record
+            */
+            rs1.close();
+            queryData1.close();
+            return checkForDuplicates;
+            
+        } catch (SQLException ex) {
+            System.err.println("System: checkForDuplicates(): " + ex);
+            if (mDb != null) {
+                try {
+                    System.out.print("System: checkForDuplicates(): Transaction is being rolled back");
+                    mDb.rollback();
+                } catch(SQLException excep) {
+                    System.err.print(excep);
+                }
+            }
+            return null;   
+        } finally {
+            try {
+                System.out.print("System: checkForDuplicates: Alles wird geschlossen");
+                if (rs1 != null) rs1.close();
+                if (rs2 != null) rs2.close();
+                if (queryData1 != null) queryData1.close();
+                if (queryData2 != null) queryData2.close();
+            } catch(SQLException excep) {
+                System.err.print("System: checkForDuplicates(): " + excep);
+            }
+        }
+    }
+
+    /**
      * Schliesst die zugrundeliegende Datenbank.
      * <br>
      * Vor dem naechsten Zugriff muss oeffnen() aufgerufen

@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/MyArrowServlet.java</file>
-            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/managegid/ManageGID.java</file>
-            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/managegid/ManageGIDTbl.java</file>
-            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/managegid/ManageGIDSpeicher.java</file>
+            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/MyArrowDB.java</file>
+            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/cleanuptables/CleanupTables.java</file>
+            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/gui/MyArrowEditor.java</file>
+            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/bogen/BogenSpeicher.java</file>
+            <file>file:/home/rdueber/StudioProjects/MyArrowServer/src/java/com/example/rene/myarrow/server/bogen/BogenTbl.java</file>
         </group>
     </open-files>
 </project-private>
