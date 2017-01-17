@@ -40,9 +40,9 @@ public class upTimeSpeicher {
     public int insertStartTime() {
         int row_id;
         PreparedStatement insertData = null;
-        System.out.print("insertStartTime(): started");
+        System.out.print("System: insertStartTime(): started");
         try {
-            System.out.print("AutoCommit() switched off");
+            System.out.print("System: AutoCommit() switched off");
             mDb.setAutoCommit(false);
             insertData = mDb.prepareStatement(upTimeTbl.STMT_INSERT);
             insertData.setLong(1, System.currentTimeMillis());
@@ -54,7 +54,7 @@ public class upTimeSpeicher {
             System.out.println(ex);
             if (mDb != null) {
                 try {
-                    System.err.print("Transaction is being rolled back");
+                    System.err.print("System: Transaction is being rolled back");
                     mDb.rollback();
                 } catch(SQLException excep) {
                     System.err.print(excep);
@@ -70,13 +70,13 @@ public class upTimeSpeicher {
                 }                
             }
             try {
-                System.out.print("AutoCommit() switched on again");
+                System.out.print("System: AutoCommit() switched on again");
                 mDb.setAutoCommit(true);
             } catch(SQLException excep) {
                 System.err.print(excep);
             }                
         }
-        System.out.print("insertStartTime(): ended");
+        System.out.print("System: insertStartTime(): ended");
         return row_id;
     }
 

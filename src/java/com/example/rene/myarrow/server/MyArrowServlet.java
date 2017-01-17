@@ -1,5 +1,6 @@
 package com.example.rene.myarrow.server;
 
+import com.example.rene.myarrow.server.MyArrowEditor;
 import com.example.rene.myarrow.server.transfer.TransferSpeicher;
 import com.example.rene.myarrow.server.schuetzen.Schuetzen;
 import com.example.rene.myarrow.server.schuetzen.SchuetzenSpeicher;
@@ -19,7 +20,6 @@ import com.example.rene.myarrow.server.rundenschuetzen.RundenSchuetzenSpeicher;
 import com.example.rene.myarrow.server.rundenziel.RundenZiel;
 import com.example.rene.myarrow.server.rundenziel.RundenZielSpeicher;
 import com.example.rene.myarrow.server.uptime.upTimeSpeicher;
-import com.example.rene.myarrow.server.managegid.ManageGID;
 import com.example.rene.myarrow.server.managegid.ManageGIDSpeicher;
 
 import java.io.IOException;
@@ -48,7 +48,10 @@ public class MyArrowServlet extends HttpServlet {
     public MyArrowServlet() {
         System.out.println("=====================================================================");
         System.out.println("System: Constructor(): Servlet wird initialisiert...");
-        System.out.println("=====================================================================");
+        
+        /**
+         * Store startup time
+         */
         final upTimeSpeicher uTS = new upTimeSpeicher();
         row_id = uTS.insertStartTime();
         uTS.schliessen();
@@ -56,33 +59,35 @@ public class MyArrowServlet extends HttpServlet {
         /**
          * GUI MyArrowEditor starten
          */
-        new MyArrowEditor().main(null);
+        System.out.println("System: Constructor(): Start GUI");
+        new MyArrowEditor().main(new String[]{""});
+        System.out.println("=====================================================================");
     }
   
     @Override
     public void destroy() {
         System.out.println("System: destroy(): entered...");
-        System.out.println("=====================================================================");
         final upTimeSpeicher uTS = new upTimeSpeicher();
         uTS.updateEndTime(row_id);
         uTS.schliessen();
         super.destroy();
+        System.out.println("=====================================================================");
     }
   
     @Override
     protected void service(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         System.out.println("System: service(): entered...");
-        System.out.println("=====================================================================");
         super.service(request, response);
+        System.out.println("=====================================================================");
     }
     
     @Override
     protected void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException {
         System.out.println("System: doGet(): entered...");
-        System.out.println("=====================================================================");
 	// wird nicht verwendet...
+        System.out.println("=====================================================================");
     }
   
     @Override
