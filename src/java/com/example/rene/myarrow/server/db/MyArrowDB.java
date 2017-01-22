@@ -1,4 +1,4 @@
-package com.example.rene.myarrow.server;
+package com.example.rene.myarrow.server.db;
 
 import java.sql.*;
 

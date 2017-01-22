@@ -8,7 +8,7 @@ package com.example.rene.myarrow.server.cleanuptables;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.example.rene.myarrow.server.MyArrowDB;
+import com.example.rene.myarrow.server.db.MyArrowDB;
 import com.example.rene.myarrow.server.parcour.ParcourSpeicher;
 import com.example.rene.myarrow.server.bogen.BogenSpeicher;
 import com.example.rene.myarrow.server.pfeil.PfeilSpeicher;

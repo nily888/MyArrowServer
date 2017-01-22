@@ -1,6 +1,6 @@
 package com.example.rene.myarrow.server.rundenziel;
 
-import com.example.rene.myarrow.server.MyArrowDB;
+import com.example.rene.myarrow.server.db.MyArrowDB;
 
 import java.sql.*;
         

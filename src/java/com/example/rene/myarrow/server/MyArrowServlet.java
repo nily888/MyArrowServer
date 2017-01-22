@@ -1,6 +1,6 @@
 package com.example.rene.myarrow.server;
 
-import com.example.rene.myarrow.server.MyArrowEditor;
+// import com.example.rene.myarrow.server.MyArrowEditor;
 import com.example.rene.myarrow.server.transfer.TransferSpeicher;
 import com.example.rene.myarrow.server.schuetzen.Schuetzen;
 import com.example.rene.myarrow.server.schuetzen.SchuetzenSpeicher;
@@ -59,8 +59,8 @@ public class MyArrowServlet extends HttpServlet {
         /**
          * GUI MyArrowEditor starten
          */
-        System.out.println("System: Constructor(): Start GUI");
-        new MyArrowEditor().main(new String[]{""});
+        // System.out.println("System: Constructor(): Start GUI");
+        // new MyArrowEditor().main(new String[]{""});
         System.out.println("=====================================================================");
     }
   

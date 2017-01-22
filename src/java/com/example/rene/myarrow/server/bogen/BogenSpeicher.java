@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.example.rene.myarrow.server.MyArrowDB;
+import com.example.rene.myarrow.server.db.MyArrowDB;
 import java.sql.ResultSet;
 
 /**

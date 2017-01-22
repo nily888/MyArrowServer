@@ -1,6 +1,6 @@
 package com.example.rene.myarrow.server.uptime;
 
-import com.example.rene.myarrow.server.MyArrowDB;
+import com.example.rene.myarrow.server.db.MyArrowDB;
 
 import java.util.Date;
 import java.sql.*;

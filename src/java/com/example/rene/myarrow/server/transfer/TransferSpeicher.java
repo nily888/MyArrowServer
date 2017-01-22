@@ -1,7 +1,7 @@
 package com.example.rene.myarrow.server.transfer;
 
 import com.example.rene.myarrow.server.clients.ClientsSpeicher;
-import com.example.rene.myarrow.server.MyArrowDB;
+import com.example.rene.myarrow.server.db.MyArrowDB;
 
 import java.sql.*;
 
