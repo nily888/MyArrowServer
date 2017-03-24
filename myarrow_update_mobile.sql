@@ -16,31 +16,22 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `rundenziel`
+-- Table structure for table `update_mobile`
 --
 
-DROP TABLE IF EXISTS `rundenziel`;
+DROP TABLE IF EXISTS `update_mobile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rundenziel` (
+CREATE TABLE `update_mobile` (
   `_id` int(11) NOT NULL AUTO_INCREMENT,
-  `gid` varchar(50) NOT NULL,
-  `rundengid` varchar(50) NOT NULL,
-  `zielgid` varchar(50) NOT NULL,
-  `rundenschuetzengid` varchar(50) NOT NULL,
-  `nummer` int(11) DEFAULT NULL,
-  `eins` int(11) DEFAULT NULL,
-  `zwei` int(11) DEFAULT NULL,
-  `drei` int(11) DEFAULT NULL,
-  `kills` int(11) DEFAULT NULL,
-  `killkill` int(11) DEFAULT NULL,
-  `punkte` int(11) DEFAULT NULL,
-  `anmerkung` varchar(256) DEFAULT NULL,
-  `dateiname` varchar(256) DEFAULT NULL,
-  `zeitstempel` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`_id`,`gid`),
+  `transfered` int(11) DEFAULT '0',
+  `tablename` varchar(50) NOT NULL,
+  `fieldname` varchar(50) NOT NULL,
+  `old_gid` varchar(50) NOT NULL,
+  `new_gid` varchar(50) NOT NULL,
+  PRIMARY KEY (`_id`),
   UNIQUE KEY `_id_UNIQUE` (`_id`),
-  UNIQUE KEY `gid_UNIQUE` (`gid`)
+  KEY `main` (`transfered`,`tablename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +44,4 @@ CREATE TABLE `rundenziel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-24 18:08:41
+-- Dump completed on 2017-03-24 18:08:42
