@@ -127,6 +127,9 @@ public class MyArrowServlet extends HttpServlet {
             ResultSet rs = ts.getTransferListe(deviceid);
 
             switch (request.getParameter("action")) { 
+                /**
+                 * Start communication, send number of records to be transfered
+                 */
                 case "getdata":
                     try {
                         rs.last();
@@ -141,10 +144,15 @@ public class MyArrowServlet extends HttpServlet {
                         System.err.println("=====================================================================");
                     }
                     break;
-                
+                /**
+                 * Send the transaction from other mobile to the current mobile
+                 */
                 case "o.k.":
                     try {
                         boolean send = false;
+                        /**
+                         * Nothing to send
+                         */
                         if (!rs.first()) {
                             System.out.print("System: doPost(): Kein Transferrecord selektiert, Übertragung beenden!!");
                             send= sendEnd(response);
@@ -154,6 +162,9 @@ public class MyArrowServlet extends HttpServlet {
                         System.out.print("System: doPost(): ID            = " + rs.getInt(1));
                         System.out.print("System: doPost(): GID           = " + rs.getString(2));
                         System.out.print("=====================================================================");
+                        /**
+                         * Get and send dataset
+                         */
                         switch (rs.getString(3)) {
                             case "schuetzen":
                                 send = sendSchuetzen(rs.getInt(1), rs.getString(2), deviceid, response);
@@ -191,6 +202,9 @@ public class MyArrowServlet extends HttpServlet {
                                 System.err.println("System: doPost(): Tabellenname nicht gefunden!!"); 
                                 break;
                         }
+                        /**
+                         * After successful upload, set flag transformed to done (1)
+                         */
                         if (send) {
                             ts.updateTransferDone(rs.getInt(1));
                         }
@@ -210,6 +224,8 @@ public class MyArrowServlet extends HttpServlet {
              * Datenbankverbindung schliessen
              */
             ts.schliessen();
+            
+        } else if (request.getParameter("update")!=null) {
             
         } else {
             /**
