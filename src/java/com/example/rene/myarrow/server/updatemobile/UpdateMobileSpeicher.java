@@ -1,6 +1,5 @@
 package com.example.rene.myarrow.server.updatemobile;
 
-import com.example.rene.myarrow.server.updatemobile.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -185,6 +184,53 @@ public class UpdateMobileSpeicher {
         }
         return null;
     }
+
+        public UpdateMobile loadUpdateMobileDetails() {
+        PreparedStatement queryData;
+        ResultSet rs = null;
+        queryData = null;
+        try {
+            queryData = mDb.prepareStatement(UpdateMobileTbl.STMT_NOT_TRANSFERED);
+            rs = queryData.executeQuery();
+            if (!rs.isAfterLast()) rs.first();
+            if (!rs.isAfterLast()) {
+                UpdateMobile loadUpdateMobileDetails = new UpdateMobile();
+                loadUpdateMobileDetails.setID(rs.getInt(UpdateMobileTbl.ID));
+                loadUpdateMobileDetails.setDeviceID(rs.getString(UpdateMobileTbl.DEVICEID));
+                loadUpdateMobileDetails.setTableName(rs.getString(UpdateMobileTbl.TABLENAME));
+                loadUpdateMobileDetails.setFieldName(rs.getString(UpdateMobileTbl.FIELDNAME));
+                loadUpdateMobileDetails.setoldGID(rs.getString(UpdateMobileTbl.OLD_GID));
+                loadUpdateMobileDetails.setnewGID(rs.getString(UpdateMobileTbl.NEW_GID));
+                loadUpdateMobileDetails.setTransfered(rs.getInt(UpdateMobileTbl.TRANSFERED));
+                return loadUpdateMobileDetails;
+            } else {
+                System.err.println("System: loadUpdateMobileDetails(): keinen Treffer = " + rs.getRow());
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("System: loadUpdateMobileDetails(): " + ex);
+            if (mDb != null) {
+                try {
+                    System.out.println("System: loadUpdateMobileDetails(): Transaction is being rolled back");
+                    mDb.rollback();
+                } catch(SQLException excep) {
+                    System.err.println(excep);
+                }
+            }
+            return null;
+            
+        } finally {
+            try {
+                System.out.println("System: loadUpdateMobileDetails(): Alles wird geschlossen");
+                if (rs != null) rs.close();
+                if (queryData != null) queryData.close();
+            } catch(SQLException excep) {
+                System.err.println("System: loadUpdateMobileDetails(): " + excep);
+            }
+        }
+        return null;
+    }
+
     
     /**
      * Schliesst die zugrundeliegende Datenbank.

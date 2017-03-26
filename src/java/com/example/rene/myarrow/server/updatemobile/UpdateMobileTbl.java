@@ -77,6 +77,35 @@ public class UpdateMobileTbl  implements UpdateMobileColumns {
             "where " + ID + "=?";
 
     /**
+     * WHERE-Bedingung Get All.
+     */
+    public static final String STMT_GET_ALL = 
+            "select " 
+                + ID          + ", "
+                + DEVICEID    + ", "
+                + TABLENAME   + ", "
+                + FIELDNAME   + ", "
+                + OLD_GID     + ", "
+                + NEW_GID     + ", "
+                + TRANSFERED  + " " +
+            "from " + TABLE_NAME;
+
+    /**
+     * WHERE-Bedingung Get All.
+     */
+    public static final String STMT_NOT_TRANSFERED = 
+            "select " 
+                + ID          + ", "
+                + DEVICEID    + ", "
+                + TABLENAME   + ", "
+                + FIELDNAME   + ", "
+                + OLD_GID     + ", "
+                + NEW_GID     + ", "
+                + TRANSFERED  + " " +
+            "from " + TABLE_NAME + " " +
+            "where " + TRANSFERED + "=0";
+
+    /**
      * WHERE-Bedingung fuer GID-Anfrage.
      */
     public static final String WHERE_ID_EQUALS = ID + "=?";

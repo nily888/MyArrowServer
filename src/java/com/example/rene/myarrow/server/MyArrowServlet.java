@@ -226,7 +226,10 @@ public class MyArrowServlet extends HttpServlet {
             ts.schliessen();
             
         } else if (request.getParameter("update")!=null) {
-            
+            UpdateMobile um = null;
+            while (){
+                
+            }
         } else {
             /**
              * in Abhängigkeit der zu synchroniserenden Tabelle
