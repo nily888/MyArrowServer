@@ -185,12 +185,13 @@ public class UpdateMobileSpeicher {
         return null;
     }
 
-        public UpdateMobile loadUpdateMobileDetails() {
+    public UpdateMobile loadUpdateMobileNext(String deviceid) {
         PreparedStatement queryData;
         ResultSet rs = null;
         queryData = null;
         try {
             queryData = mDb.prepareStatement(UpdateMobileTbl.STMT_NOT_TRANSFERED);
+            queryData.setString(1, deviceid);
             rs = queryData.executeQuery();
             if (!rs.isAfterLast()) rs.first();
             if (!rs.isAfterLast()) {
@@ -204,14 +205,14 @@ public class UpdateMobileSpeicher {
                 loadUpdateMobileDetails.setTransfered(rs.getInt(UpdateMobileTbl.TRANSFERED));
                 return loadUpdateMobileDetails;
             } else {
-                System.err.println("System: loadUpdateMobileDetails(): keinen Treffer = " + rs.getRow());
+                System.err.println("System: loadUpdateMobileNext(): keinen Treffer = " + rs.getRow());
             }
             
         } catch (SQLException ex) {
-            System.err.println("System: loadUpdateMobileDetails(): " + ex);
+            System.err.println("System: loadUpdateMobileNext(): " + ex);
             if (mDb != null) {
                 try {
-                    System.out.println("System: loadUpdateMobileDetails(): Transaction is being rolled back");
+                    System.out.println("System: loadUpdateMobileNext(): Transaction is being rolled back");
                     mDb.rollback();
                 } catch(SQLException excep) {
                     System.err.println(excep);
@@ -221,16 +222,52 @@ public class UpdateMobileSpeicher {
             
         } finally {
             try {
-                System.out.println("System: loadUpdateMobileDetails(): Alles wird geschlossen");
+                System.out.println("System: loadUpdateMobileNext(): Alles wird geschlossen");
                 if (rs != null) rs.close();
                 if (queryData != null) queryData.close();
             } catch(SQLException excep) {
-                System.err.println("System: loadUpdateMobileDetails(): " + excep);
+                System.err.println("System: loadUpdateMobileNext(): " + excep);
             }
         }
         return null;
     }
 
+    public void UpdateTransferDone(int id) {
+        PreparedStatement data = null;
+        try {
+            mDb.setAutoCommit(false);
+            data = mDb.prepareStatement(UpdateMobileTbl.STMT_UPDATE_DONE);
+            data.setInt(1, id);
+            data.executeUpdate();
+            mDb.commit();
+        } catch (SQLException ex) {
+            System.out.println("System: UpdateTransferDone(): Data: " + data.toString());
+            System.err.println("System: UpdateTransferDone(): " + ex);
+            if (mDb != null) {
+                try {
+                    System.out.println("System: UpdateTransferDone(): Transaction is being rolled back");
+                    mDb.rollback();
+                } catch(SQLException excep) {
+                    System.err.println("System: UpdateTransferDone(): " + excep);
+                }
+            }
+        } finally {
+            if (data != null) {
+                try {
+                    System.out.println("System: UpdateTransferDone(): Transaction will be closed");
+                    data.close();
+                } catch(SQLException excep) {
+                    System.err.println("System: UpdateTransferDone(): " + excep);
+                }                
+            }
+            try {
+                System.out.println("System: UpdateTransferDone(): AutoCommit() switched on again");
+                mDb.setAutoCommit(true);
+            } catch(SQLException excep) {
+                System.err.println("System: UpdateTransferDone(): " + excep);
+            }                
+        }
+    }
     
     /**
      * Schliesst die zugrundeliegende Datenbank.

@@ -103,12 +103,15 @@ public class UpdateMobileTbl  implements UpdateMobileColumns {
                 + NEW_GID     + ", "
                 + TRANSFERED  + " " +
             "from " + TABLE_NAME + " " +
-            "where " + TRANSFERED + "=0";
+            "where " + TRANSFERED + "=0 AND " + DEVICEID + "=?";
 
     /**
      * WHERE-Bedingung fuer GID-Anfrage.
      */
     public static final String WHERE_ID_EQUALS = ID + "=?";
+
+    public static final String STMT_UPDATE_DONE = "update " + TABLE_NAME +
+            " set " + TRANSFERED + "=1 where " + ID + "=?";
 
     /**
      * Klasse enthaelt nur Konstanten.

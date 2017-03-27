@@ -21,6 +21,8 @@ import com.example.rene.myarrow.server.rundenziel.RundenZiel;
 import com.example.rene.myarrow.server.rundenziel.RundenZielSpeicher;
 import com.example.rene.myarrow.server.uptime.upTimeSpeicher;
 import com.example.rene.myarrow.server.managegid.ManageGIDSpeicher;
+import com.example.rene.myarrow.server.updatemobile.UpdateMobileSpeicher;
+import com.example.rene.myarrow.server.updatemobile.UpdateMobile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -226,9 +228,25 @@ public class MyArrowServlet extends HttpServlet {
             ts.schliessen();
             
         } else if (request.getParameter("update")!=null) {
-            UpdateMobile um = null;
-            while (){
-                
+            Boolean send=null;
+            String deviceid = request.getParameter("deviceid");
+            UpdateMobileSpeicher ums = new UpdateMobileSpeicher();
+            UpdateMobile um = ums.loadUpdateMobileNext(deviceid);
+            while (um!=null){
+                /**
+                 * Send data to mobile
+                 */
+                send = sendUpdateMobile(um, response);
+                /**
+                 * After successful upload, set flag transformed to done (1)
+                 */
+                if (send) {
+                    ums.UpdateTransferDone(um.id);
+                }
+                /**
+                 * Get next record to upload
+                 */
+                um = ums.loadUpdateMobileDetails(deviceid);
             }
         } else {
             /**
@@ -1268,5 +1286,27 @@ public class MyArrowServlet extends HttpServlet {
             return false;
         } 
     }
-    
+
+    private boolean sendUpdateMobile(UpdateMobile um, HttpServletResponse response) {
+        
+        try {
+            if (um==null) return false;
+            System.out.println("System: sendUpdateMobile(): ID  -       " + um.id);
+            System.out.println("System: sendUpdateMobile(): TABLENAME - " + um.tablename);
+            System.out.println("System: sendUpdateMobile(): TABLENAME - " + um.fieldname);
+            System.out.println("System: sendUpdateMobile(): RESPONSE -  " + response);
+            
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+            System.out.println("System: sendUpdateMobile(): UpdateMobile -  " + um.toString());
+            out.println(um.toString());
+            out.close();
+            return true;
+        } catch ( IOException e) {
+            System.err.println("System: sendUpdateMobile(): Datensatz konnte nicht gesendt werden!!");
+            System.err.println("System: sendUpdateMobile(): " + e);
+            return false;
+        }
+    }
+       
 }
