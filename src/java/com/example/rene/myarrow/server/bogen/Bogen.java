@@ -74,6 +74,12 @@ public class Bogen implements BogenColumns{
     @Override
     public String toString() {
         String toString = "table=bogen";
+        System.out.println("System: toString(): ID -          " + String.valueOf(getID()));
+        System.out.println("System: toString(): GID -         " + getGID());
+        System.out.println("System: toString(): NAME -        " + getName());
+        System.out.println("System: toString(): Dateiname -   " + getDateiname());
+        System.out.println("System: toString(): STANDARD -    " + String.valueOf(getStandard()));
+        System.out.println("System: toString(): ZeitSetempl - " + String.valueOf(getZeitstempel()));
         toString += "&" + ID + "=" + String.valueOf(getID());
         if (!getGID().equals("")) toString += "&" + GID + "=" + getGID();
         if (!getName().equals("")) toString += "&" + NAME + "=" + getName();

@@ -1,6 +1,5 @@
 package com.example.rene.myarrow.server;
 
-// import com.example.rene.myarrow.server.MyArrowEditor;
 import com.example.rene.myarrow.server.transfer.TransferSpeicher;
 import com.example.rene.myarrow.server.schuetzen.Schuetzen;
 import com.example.rene.myarrow.server.schuetzen.SchuetzenSpeicher;
@@ -228,6 +227,9 @@ public class MyArrowServlet extends HttpServlet {
             ts.schliessen();
             
         } else if (request.getParameter("update")!=null) {
+            /**
+             * Upload from change to the GIDs
+             */
             Boolean send=null;
             String deviceid = request.getParameter("deviceid");
             UpdateMobileSpeicher ums = new UpdateMobileSpeicher();
@@ -1056,7 +1058,7 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            bogen.setGID(new ManageGIDSpeicher().getMobilGID("bogen", gid, deviceid));
+            // bogen.setGID(new ManageGIDSpeicher().getMobilGID("bogen", gid, deviceid));
             
 
             System.out.println("System: sendParcour(): BOGEN -  " + bogen.toString());
@@ -1083,7 +1085,7 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            parcour.setGID(new ManageGIDSpeicher().getMobilGID("parcour", gid, deviceid));
+            // parcour.setGID(new ManageGIDSpeicher().getMobilGID("parcour", gid, deviceid));
             
             System.out.println("System: sendParcour(): PARCOUR -  " + parcour.toString());
             out.println(parcour.toString());
@@ -1109,7 +1111,7 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            pfeil.setGID(new ManageGIDSpeicher().getMobilGID("pfeil", gid, deviceid));
+            // pfeil.setGID(new ManageGIDSpeicher().getMobilGID("pfeil", gid, deviceid));
             
             out.println(pfeil.toString());
             out.close();
@@ -1135,7 +1137,7 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            runden.setGID(new ManageGIDSpeicher().getMobilGID("runden", gid, deviceid));
+            // runden.setGID(new ManageGIDSpeicher().getMobilGID("runden", gid, deviceid));
             runden.setParcourGID(new ManageGIDSpeicher().getMobilGID("parcour", runden.getParcourGID(), deviceid));
             runden.setBogenGID(new ManageGIDSpeicher().getMobilGID("bogen", runden.getBogenGID(), deviceid));
             runden.setPfeilGID(new ManageGIDSpeicher().getMobilGID("pfeil", runden.getPfeilGID(), deviceid));
@@ -1163,9 +1165,9 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            rundenschuetzen.setGID(new ManageGIDSpeicher().getMobilGID("rundenschuetzen", gid, deviceid));
-            rundenschuetzen.setRundenGID(new ManageGIDSpeicher().getMobilGID("runden", rundenschuetzen.getRundenGID(), deviceid));
-            rundenschuetzen.setSchuetzenGID(new ManageGIDSpeicher().getMobilGID("schuetzen", rundenschuetzen.getSchuetzenGID(), deviceid));
+            // rundenschuetzen.setGID(new ManageGIDSpeicher().getMobilGID("rundenschuetzen", gid, deviceid));
+            // rundenschuetzen.setRundenGID(new ManageGIDSpeicher().getMobilGID("runden", rundenschuetzen.getRundenGID(), deviceid));
+            // rundenschuetzen.setSchuetzenGID(new ManageGIDSpeicher().getMobilGID("schuetzen", rundenschuetzen.getSchuetzenGID(), deviceid));
             
             out.println(rundenschuetzen.toString());
             out.close();
@@ -1190,10 +1192,10 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            rundenziel.setGID(new ManageGIDSpeicher().getMobilGID("rundenziel", gid, deviceid));
-            rundenziel.setRundenGID(new ManageGIDSpeicher().getMobilGID("runden", rundenziel.getRundenGID(), deviceid));
-            rundenziel.setZielGID(new ManageGIDSpeicher().getMobilGID("ziel", rundenziel.getZielGID(), deviceid));
-            rundenziel.setRundenSchuetzenGID(new ManageGIDSpeicher().getMobilGID("rundenschuetzen", rundenziel.getRundenSchuetzenGID(), deviceid));
+            // rundenziel.setGID(new ManageGIDSpeicher().getMobilGID("rundenziel", gid, deviceid));
+            // rundenziel.setRundenGID(new ManageGIDSpeicher().getMobilGID("runden", rundenziel.getRundenGID(), deviceid));
+            // rundenziel.setZielGID(new ManageGIDSpeicher().getMobilGID("ziel", rundenziel.getZielGID(), deviceid));
+            // rundenziel.setRundenSchuetzenGID(new ManageGIDSpeicher().getMobilGID("rundenschuetzen", rundenziel.getRundenSchuetzenGID(), deviceid));
             
             out.println(rundenziel.toString());
             out.close();
@@ -1227,7 +1229,7 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            schuetzen.setGID(new ManageGIDSpeicher().getMobilGID("schuetzen", gid, deviceid));
+            // schuetzen.setGID(new ManageGIDSpeicher().getMobilGID("schuetzen", gid, deviceid));
             
             /**
              * Daten senden und Verbindung schliessen
@@ -1259,7 +1261,7 @@ public class MyArrowServlet extends HttpServlet {
             /**
              * Mapping der GID from Server to Mobile
              */
-            ziel.setGID(new ManageGIDSpeicher().getMobilGID("ziel", gid, deviceid));
+            // ziel.setGID(new ManageGIDSpeicher().getMobilGID("ziel", gid, deviceid));
             
             out.println(ziel.toString());
             out.close();

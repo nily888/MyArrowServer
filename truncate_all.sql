@@ -1,0 +1,14 @@
+truncate myarrow.bogen;
+truncate myarrow.clients;
+truncate myarrow.managegid;
+truncate myarrow.mappinggid;
+truncate myarrow.parcour;
+truncate myarrow.pfeil;
+truncate myarrow.runden;
+truncate myarrow.rundenschuetzen;
+truncate myarrow.rundenziel;
+truncate myarrow.schuetzen;
+truncate myarrow.transfer;
+truncate myarrow.updatemobile;
+truncate myarrow.uptime;
+truncate myarrow.ziel;
