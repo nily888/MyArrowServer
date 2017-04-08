@@ -216,6 +216,28 @@ public class MyArrowServlet extends HttpServlet {
                     System.out.print("=====================================================================");
                     break;
                 
+                case "updatemobile":
+                    /**
+                     * Upload from change to the GIDs
+                     */
+                    Boolean send=null;
+                    UpdateMobileSpeicher ums = new UpdateMobileSpeicher();
+                    UpdateMobile um = ums.loadUpdateMobileNext(deviceid);
+                    if (um!=null){
+                        /**
+                         * Send data to mobile
+                         */
+                        send = sendUpdateMobile(um, response);
+                        /**
+                         * After successful upload, set flag transformed to done (1)
+                         */
+                        if (send) {
+                            ums.UpdateTransferDone(um.id);
+                        }
+                    }
+                    ums.schliessen();
+                    break;
+                    
                 case "done":
                     System.out.print("System: doPost(): Done - Alles synchronisiert.");
                     System.out.print("=====================================================================");
@@ -226,30 +248,6 @@ public class MyArrowServlet extends HttpServlet {
              */
             ts.schliessen();
             
-        } else if (request.getParameter("update")!=null) {
-            /**
-             * Upload from change to the GIDs
-             */
-            Boolean send=null;
-            String deviceid = request.getParameter("deviceid");
-            UpdateMobileSpeicher ums = new UpdateMobileSpeicher();
-            UpdateMobile um = ums.loadUpdateMobileNext(deviceid);
-            while (um!=null){
-                /**
-                 * Send data to mobile
-                 */
-                send = sendUpdateMobile(um, response);
-                /**
-                 * After successful upload, set flag transformed to done (1)
-                 */
-                if (send) {
-                    ums.UpdateTransferDone(um.id);
-                }
-                /**
-                 * Get next record to upload
-                 */
-                um = ums.loadUpdateMobileDetails(deviceid);
-            }
         } else {
             /**
              * in Abhängigkeit der zu synchroniserenden Tabelle
@@ -1304,7 +1302,7 @@ public class MyArrowServlet extends HttpServlet {
             out.println(um.toString());
             out.close();
             return true;
-        } catch ( IOException e) {
+        } catch (IOException e) {
             System.err.println("System: sendUpdateMobile(): Datensatz konnte nicht gesendt werden!!");
             System.err.println("System: sendUpdateMobile(): " + e);
             return false;
