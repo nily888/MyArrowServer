@@ -155,7 +155,7 @@ public class MyArrowServlet extends HttpServlet {
                          * Nothing to send
                          */
                         if (!rs.first()) {
-                            System.out.print("System: doPost(): Kein Transferrecord selektiert, Übertragung beenden!!");
+                            System.out.print("System: doPost(): Kein Data Transferrecord selektiert, Übertragung beenden!!");
                             send= sendEnd(response);
                             break;
                         }
@@ -234,6 +234,9 @@ public class MyArrowServlet extends HttpServlet {
                         if (send) {
                             ums.UpdateTransferDone(um.id);
                         }
+                    } else {
+                        System.out.print("System: doPost(): Kein Updatamobile Transferrecord selektiert, Übertragung beenden!!");
+                        send= sendEnd(response);
                     }
                     ums.schliessen();
                     break;
