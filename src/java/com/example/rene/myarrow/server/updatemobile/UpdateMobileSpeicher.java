@@ -143,8 +143,10 @@ public class UpdateMobileSpeicher {
         ResultSet rs = null;
         queryData = null;
         try {
-            queryData = mDb.prepareStatement(UpdateMobileTbl.STMT_WHERE_ID_EQUALS);
+            queryData = mDb.prepareStatement(UpdateMobileTbl.STMT_WHERE_ID_TRANSFERED_EQUALS);
             queryData.setString(1, gid);
+            queryData.setInt(2, 0);
+            System.out.println("System: loadUpdateMobileDetails(): " + queryData.toString());
             rs = queryData.executeQuery();
             rs.last();
             if (rs.getRow() == 1) {

@@ -1,0 +1,16 @@
+myarrow_bogen.sql;
+myarrow_clients.sql;
+myarrow_mappinggid.sql;
+myarrow_parcour.sql;
+myarrow_pfeil.sql;
+myarrow_rundenschuetzen.sql;
+myarrow_runden.sql;
+myarrow_rundenziel.sql;
+myarrow_schuetzen.sql;
+myarrow_transfer.sql;
+myarrow_update_mobile.sql;
+myarrow_updatemobile.sql;
+myarrow_uptime.sql;
+myarrow_ziel.sql;
+truncate_all.sql;
+update_transfer_devicelid.sql;

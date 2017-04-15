@@ -65,7 +65,7 @@ public class UpdateMobileTbl  implements UpdateMobileColumns {
      * WHERE-Bedingung fuer ID-Anfrage.
      */
     public static final String STMT_WHERE_ID_EQUALS = 
-            "select " 
+            "select "
                 + ID          + ", "
                 + DEVICEID    + ", "
                 + TABLENAME   + ", "
@@ -76,6 +76,19 @@ public class UpdateMobileTbl  implements UpdateMobileColumns {
             "from " + TABLE_NAME + " " +
             "where " + ID + "=?";
 
+    public static final String STMT_WHERE_ID_TRANSFERED_EQUALS =
+            "select "
+                + ID          + ", "
+                + DEVICEID    + ", "
+                + TABLENAME   + ", "
+                + FIELDNAME   + ", "
+                + OLD_GID     + ", "
+                + NEW_GID     + ", "
+                + TRANSFERED  + " " +
+            "from " + TABLE_NAME + " " +
+            "where " + ID + "=? " +
+            "and " + TRANSFERED +"=?";
+    
     /**
      * WHERE-Bedingung Get All.
      */

@@ -32,8 +32,18 @@ CREATE TABLE `bogen` (
   PRIMARY KEY (`_id`,`gid`),
   UNIQUE KEY `gid_UNIQUE` (`gid`),
   UNIQUE KEY `_id_UNIQUE` (`_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bogen`
+--
+
+LOCK TABLES `bogen` WRITE;
+/*!40000 ALTER TABLE `bogen` DISABLE KEYS */;
+INSERT INTO `bogen` VALUES (3,'3','Name2',NULL,NULL,0),(4,'4','Name3',NULL,1,0),(5,'5','Name1',NULL,1,0),(6,'6','Name1',NULL,1,0),(7,'7','Name2',NULL,1,0),(8,'8','Name3',NULL,1,0),(9,'1','Name1','',1,0),(10,'2','Name2','',1,0);
+/*!40000 ALTER TABLE `bogen` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -44,4 +54,4 @@ CREATE TABLE `bogen` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-24 18:08:41
+-- Dump completed on 2017-03-25 19:58:05

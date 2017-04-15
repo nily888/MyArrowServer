@@ -37,6 +37,15 @@ CREATE TABLE `runden` (
   UNIQUE KEY `gid_UNIQUE` (`gid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `runden`
+--
+
+LOCK TABLES `runden` WRITE;
+/*!40000 ALTER TABLE `runden` DISABLE KEYS */;
+/*!40000 ALTER TABLE `runden` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -47,4 +56,4 @@ CREATE TABLE `runden` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-24 18:08:41
+-- Dump completed on 2017-03-25 19:58:05

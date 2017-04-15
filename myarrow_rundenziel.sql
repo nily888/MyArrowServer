@@ -43,6 +43,15 @@ CREATE TABLE `rundenziel` (
   UNIQUE KEY `gid_UNIQUE` (`gid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rundenziel`
+--
+
+LOCK TABLES `rundenziel` WRITE;
+/*!40000 ALTER TABLE `rundenziel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rundenziel` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -53,4 +62,4 @@ CREATE TABLE `rundenziel` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-24 18:08:41
+-- Dump completed on 2017-03-25 19:58:05
